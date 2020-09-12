@@ -169,7 +169,7 @@ objects:
       spec:
         serviceAccountName: ${APPLICATION_NAME}
         containers:
-        - image: " "
+        - image: "docker.io/theodor2311/gogs:${GOGS_VERSION}"
           imagePullPolicy: Always
           name: ${APPLICATION_NAME}
           ports:
@@ -219,31 +219,6 @@ objects:
     test: false
     triggers:
     - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - ${APPLICATION_NAME}
-        from:
-          kind: ImageStreamTag
-          name: ${APPLICATION_NAME}:${GOGS_VERSION}
-      type: ImageChange
-- kind: ImageStream
-  apiVersion: v1
-  metadata:
-    labels:
-      app: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
-  spec:
-    tags:
-    - name: "${GOGS_VERSION}"
-      from:
-        kind: DockerImage
-        name: docker.io/theodor2311/gogs:${GOGS_VERSION}
-      importPolicy: {}
-      annotations:
-        description: The Gogs git server docker image
-        tags: gogs,go,golang
-        version: "${GOGS_VERSION}"
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
